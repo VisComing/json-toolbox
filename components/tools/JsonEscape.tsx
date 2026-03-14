@@ -154,7 +154,7 @@ export default function JsonEscape({ className }: JsonEscapeProps) {
           <div className="text-xs text-gray-500 mt-1">制表符</div>
         </div>
         <div className="p-3 bg-gray-50 rounded border text-center">
-          <code className="text-primary-600 font-mono">\\"</code>
+          <code className="text-primary-600 font-mono">\\&quot;</code>
           <div className="text-xs text-gray-500 mt-1">双引号</div>
         </div>
         <div className="p-3 bg-gray-50 rounded border text-center">

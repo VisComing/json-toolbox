@@ -145,7 +145,7 @@ function JsonNode({ data, name, depth = 0 }: JsonNodeProps) {
     <div className="font-mono text-sm">
       {name !== undefined && (
         <>
-          <span className="text-gray-800">"{name}"</span>
+          <span className="text-gray-800">&quot;{name}&quot;</span>
           <span className="text-gray-500 mx-1">:</span>
         </>
       )}

@@ -21,6 +21,31 @@ export default function JsonValidator({ className }: JsonValidatorProps) {
   const [input, setInput] = useState('');
   const [result, setResult] = useState<ValidationResult | null>(null);
 
+  const getJsonType = (value: unknown): string => {
+    if (value === null) return 'null';
+    if (Array.isArray(value)) return 'array';
+    return typeof value;
+  };
+
+  const analyzeJson = (value: unknown): { keys?: number; items?: number } => {
+    if (Array.isArray(value)) {
+      return { items: value.length };
+    }
+    if (typeof value === 'object' && value !== null) {
+      return { keys: Object.keys(value).length };
+    }
+    return {};
+  };
+
+  const calculateDepth = (value: unknown): number => {
+    if (typeof value !== 'object' || value === null) return 0;
+    if (Array.isArray(value)) {
+      return 1 + Math.max(0, ...value.map(calculateDepth));
+    }
+    const values = Object.values(value);
+    return 1 + Math.max(0, ...values.map(calculateDepth));
+  };
+
   const validateJson = useCallback(() => {
     if (!input.trim()) {
       setResult(null);
@@ -48,31 +73,6 @@ export default function JsonValidator({ className }: JsonValidatorProps) {
       });
     }
   }, [input]);
-
-  const getJsonType = (value: unknown): string => {
-    if (value === null) return 'null';
-    if (Array.isArray(value)) return 'array';
-    return typeof value;
-  };
-
-  const analyzeJson = (value: unknown): { keys?: number; items?: number } => {
-    if (Array.isArray(value)) {
-      return { items: value.length };
-    }
-    if (typeof value === 'object' && value !== null) {
-      return { keys: Object.keys(value).length };
-    }
-    return {};
-  };
-
-  const calculateDepth = (value: unknown): number => {
-    if (typeof value !== 'object' || value === null) return 0;
-    if (Array.isArray(value)) {
-      return 1 + Math.max(0, ...value.map(calculateDepth));
-    }
-    const values = Object.values(value);
-    return 1 + Math.max(0, ...values.map(calculateDepth));
-  };
 
   const handlePaste = async () => {
     try {
